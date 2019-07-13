@@ -102,7 +102,7 @@ export class Tetris {
 		piece.x = Math.floor(
 			+this.playfield[0].length / 2 - piece.block[0].length / 2
 		);
-		piece.y = -1;
+		piece.y = 0;
 		return piece;
 	}
 
