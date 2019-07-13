@@ -1,12 +1,12 @@
-﻿import {Tetris} from './tetris.js';
-import {View} from './view.js';
-const element = document.querySelector('.main');
-const tetris = new Tetris();
-window.tetris = tetris;
+﻿import { Tetris } from "./tetris.js";
+import { View } from "./view.js";
 
+const element = document.querySelector(".main");
+
+const tetris = new Tetris();
 const view = new View(element, 320, 640, 10, 20);
-window.view = view;
-document.addEventListener('keydown', () => {
+
+document.addEventListener("keydown", () => {
 	switch (event.keyCode) {
 		case 38: //up
 			tetris.rotatePiece();
