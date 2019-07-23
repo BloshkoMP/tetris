@@ -1,26 +1,29 @@
-﻿import {Tetris} from './tetris.js';
-import {View} from './view.js';
+﻿import { Tetris } from "./tetris.js";
+import { View } from "./view.js";
 
-const element = document.querySelector('.main');
-const start = document.querySelector('.start');
-const pause = document.querySelector('.pause');
+const htmlElements = {
+	element: document.querySelector(".main"),
+	start: document.querySelector(".start"),
+	pause: document.querySelector(".pause")
+};
 
 const tetris = new Tetris();
-const view = new View(element, 320, 640, 10, 20);
+const view = new View(htmlElements.element, 320, 640, 10, 20);
 let startGame;
 
-start.addEventListener('click', function() {
-	startGame = setInterval(() => {
+htmlElements.start.addEventListener("click", function tick() {
+	startGame = setTimeout(() => {
 		tetris.movePieceDown();
 		view.render(tetris.getState());
+		tick();
 	}, 500);
 });
 
-pause.addEventListener('click', function() {
-	clearInterval(startGame);
+htmlElements.pause.addEventListener("click", () => {
+	clearTimeout(startGame);
 });
 
-document.addEventListener('keydown', () => {
+document.addEventListener("keydown", () => {
 	switch (event.keyCode) {
 		case 38: //up
 			tetris.rotatePiece();
