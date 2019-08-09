@@ -7,10 +7,24 @@ export class View {
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = this.width;
 		this.canvas.height = this.height;
+
 		this.context = this.canvas.getContext("2d");
 
-		this.blockWidth = this.width / coloms;
-		this.blockHeight = this.height / rows;
+		this.playfieldBorderWidth = 4;
+		this.playfieldX = this.playfieldBorderWidth;
+		this.playfieldY = this.playfieldBorderWidth;
+		this.playfieldWidth = (this.width * 2) / 3;
+		this.playfieldHight = this.height;
+		this.playfieldInnderWidth = this.playfieldWidth - this.playfieldBorderWidth * 2;
+		this.playfieldInnderHight = this.playfieldHight - this.playfieldBorderWidth * 2;
+
+		this.blockWidth = this.playfieldInnderWidth / coloms;
+		this.blockHeight = this.playfieldInnderHight / rows;
+
+		this.panelX = this.playfieldWidth + 10;
+		this.panelY = 0;
+		this.panelWidth = this.width / 3;
+		this.panalHeight = this.height;
 
 		this.element.appendChild(this.canvas);
 	}
@@ -28,21 +42,56 @@ export class View {
 		return blockColors[index];
 	}
 
-	render(state) {
+	renderGame(state) {
 		this.clearRect();
-		this.renderPlayfield(state.playfield);
+		this.renderPlayfield(state);
 		this.renderScore(state);
 	}
 
-	renderPlayfield(playfield) {
+	renderGameOver({ score }) {
+		this.clearRect();
+		this.context.fillStyle = "rgba(0,0,0,0.75)";
+		this.context.fillRect(0, 0, this.width, this.height);
+
+		this.context.fillStyle = "white";
+		this.context.font = '20px "Press Start 2P"';
+		this.context.textAlign = "center";
+		this.context.textBaseline = "middle";
+		this.context.fillText("GAME OVER", this.width / 2, this.height / 2 - 60);
+		this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2);
+	}
+
+	renderStartScreen() {
+		this.context.fillStyle = "white";
+		this.context.font = '20px "Press Start 2P"';
+		this.context.textAlign = "center";
+		this.context.textBaseline = "middle";
+		this.context.fillText("Press ENTER to Start", this.width / 2, this.height / 2);
+		this.context.fillStyle = "gray";
+		this.context.font = '14px "Press Start 2P"';
+		this.context.fillText("Press ESC to Pause", this.width / 2, this.height / 2 + 60);
+	}
+
+	renderPauseScreen() {
+		this.context.fillStyle = "rgba(0,0,0,0.75)";
+		this.context.fillRect(0, 0, this.width, this.height);
+
+		this.context.fillStyle = "white";
+		this.context.font = '20px "Press Start 2P"';
+		this.context.textAlign = "center";
+		this.context.textBaseline = "middle";
+		this.context.fillText("Press ENTER to Resume", this.width / 2, this.height / 2);
+	}
+
+	renderPlayfield({ playfield }) {
 		for (let i = 0; i < playfield.length; i++) {
 			for (let j = 0; j < playfield[i].length; j++) {
 				const block = playfield[i][j];
 
 				if (block) {
 					this.renderBlock(
-						j * this.blockWidth,
-						i * this.blockHeight,
+						this.playfieldX + j * this.blockWidth,
+						this.playfieldY + i * this.blockHeight,
 						this.blockWidth,
 						this.blockHeight,
 						this.getPieceColor(block)
@@ -50,15 +99,36 @@ export class View {
 				}
 			}
 		}
+		this.context.strokeStyle = "white";
+		this.context.lineWidth = this.playfieldBorderWidth;
+		this.context.strokeRect(0, 0, this.playfieldWidth, this.playfieldHight);
 	}
 
-	renderScore({ score, level, lines }) {
+	renderScore({ score, level, lines, nextPiece }) {
 		this.context.textAlign = "start";
 		this.context.fillStyle = "white";
-		this.context.font = '20px "Press Start 2P"';
-		this.context.fillText(`Score: ${score}`, 0, 20);
-		this.context.fillText(`Level: ${level}`, 0, 40);
-		this.context.fillText(`Lines: ${lines}`, 0, 60);
+		this.context.font = '14px "Press Start 2P"';
+
+		this.context.fillText(`Score: ${score}`, this.panelX, this.panelY + 24);
+		this.context.fillText(`Level: ${level}`, this.panelX, this.panelY + 48);
+		this.context.fillText(`Lines: ${lines}`, this.panelX, this.panelY + 72);
+		this.context.fillText("Next:", this.panelX, this.panelY + 120);
+
+		for (let i = 0; i < nextPiece.block.length; i++) {
+			for (let j = 0; j < nextPiece.block[i].length; j++) {
+				const isBlock = nextPiece.block[i][j];
+
+				if (isBlock) {
+					this.renderBlock(
+						this.panelX + j * this.blockWidth * 0.7,
+						this.panelY + 130 + i * this.blockHeight * 0.7,
+						this.blockWidth * 0.7,
+						this.blockHeight * 0.7,
+						this.getPieceColor(isBlock)
+					);
+				}
+			}
+		}
 	}
 
 	renderBlock(j, i, width, height, color) {
@@ -68,6 +138,7 @@ export class View {
 		this.context.fillRect(j, i, width, height);
 		this.context.strokeRect(j, i, width, height);
 	}
+
 	clearRect() {
 		this.context.clearRect(0, 0, this.width, this.height);
 	}

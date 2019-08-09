@@ -1,11 +1,22 @@
-import getPieces from "./pieces.js";
+import getPieces from "./pieces";
 export class Tetris {
 	playfield = this.createPlayfield();
 	currentPiece = this.createNewBlock();
 	nextPiece = this.createNewBlock();
 	score = 0;
-	level = 0;
 	lines = 0;
+	isOver = false;
+
+	get level() {
+		return Math.floor(this.lines * 0.1);
+	}
+
+	static points = {
+		"1": 40,
+		"2": 100,
+		"3": 300,
+		"4": 1200
+	};
 
 	getState() {
 		const playfield = this.createPlayfield();
@@ -15,6 +26,11 @@ export class Tetris {
 				playfield[i][j] = this.playfield[i][j];
 			}
 		}
+
+		//Refactoring//
+		//forEach
+		// this.playfield.forEach((element,index,playfield)=>{
+		// })
 
 		for (let i = 0; i < this.currentPiece.block.length; i++) {
 			for (let j = 0; j < this.currentPiece.block[i].length; j++) {
@@ -26,8 +42,9 @@ export class Tetris {
 
 		return {
 			playfield,
+			nextPiece: this.nextPiece,
 			score: this.score,
-			level: this.level,
+			level: this.level + 1,
 			lines: this.lines
 		};
 	}
@@ -36,6 +53,7 @@ export class Tetris {
 		const deleteLines = [];
 		const colums = 10;
 		const rows = 20;
+		let lines = 0;
 		for (let i = rows - 1; i >= 0; i--) {
 			let numbers = 0;
 			for (let j = 0; j < colums; j++) {
@@ -55,26 +73,29 @@ export class Tetris {
 		for (let index of deleteLines) {
 			this.playfield.splice(index, 1);
 			this.playfield.unshift(new Array(colums).fill(0));
-			this.lines++;
-			this.lines < 10 ? (this.score += 40) : (this.score += 80);
-			this.level = Math.floor(this.lines * 0.1 + 1);
+			lines++;
 		}
-		deleteLines.length === 2
-			? (this.score += 100)
-			: deleteLines.length === 3
-			? (this.score += 200)
-			: deleteLines.length === 4
-			? (this.score += 500)
-			: this.score;
+		return lines;
+	}
+
+	calculateScore(clearedLines) {
+		if (clearedLines > 0) {
+			this.score += Tetris.points[clearedLines] * (this.level + 1);
+			this.lines += clearedLines;
+		}
 	}
 
 	createPlayfield() {
 		return new Array(20).fill(0).map(() => new Array(10).fill(0));
 	}
 
+	getNewPieces(index) {
+		return getPieces(index);
+	}
+
 	createNewBlock() {
 		const index = Math.floor(Math.random() * 7);
-		const piece = getPieces(index);
+		const piece = this.getNewPieces(index);
 
 		piece.x = Math.floor(+this.playfield[0].length / 2 - piece.block[0].length / 2);
 		piece.y = 0;
@@ -84,6 +105,9 @@ export class Tetris {
 	getNextBlock() {
 		this.currentPiece = this.nextPiece;
 		this.nextPiece = this.createNewBlock();
+		if (_.isEqual(this.currentPiece, this.nextPiece)) {
+			this.getNextBlock();
+		}
 	}
 
 	movePieceDown() {
@@ -91,7 +115,8 @@ export class Tetris {
 		if (this.isBlockOutOfBounds()) {
 			this.currentPiece.y -= 1;
 			this.pointPiece();
-			this.clearLines();
+			const score = this.clearLines();
+			this.calculateScore(score);
 			this.getNextBlock();
 		}
 	}
@@ -135,6 +160,9 @@ export class Tetris {
 				}
 			}
 		}
+		this.isOver = !!this.playfield[0].reduce((sum, current) => {
+			return sum + current;
+		});
 	}
 
 	rotatePiece() {

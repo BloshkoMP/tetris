@@ -1,18 +1,37 @@
 {
-  "name": "rlmixqql.github",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "react": "16.8.6",
-    "react-dom": "16.8.6"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "react-scripts": "latest"
-  }
+	"name": "rlmixqql.github",
+	"version": "0.0.0",
+	"private": true,
+	"dependencies": {
+		"babel-loader": "^8.0.6",
+		"css-loader": "^3.2.0",
+		"lodash": "^4.17.15",
+		"lodash.clone": "^4.5.0",
+		"react": "16.8.6",
+		"react-dom": "16.8.6",
+		"style-loader": "^1.0.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject",
+		"dev": "webpack --watch",
+		"buildProj": "webpack"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.5.5",
+		"@babel/core": "^7.5.5",
+		"@babel/node": "^7.5.5",
+		"@babel/plugin-proposal-class-properties": "^7.5.5",
+		"@babel/preset-env": "^7.5.5",
+		"@babel/preset-stage-2": "^7.0.0",
+		"@babel/register": "^7.5.5",
+		"babel-register": "^6.26.0",
+		"html-webpack-plugin": "^3.2.0",
+		"react-scripts": "latest",
+		"webpack": "^4.39.1",
+		"webpack-cli": "^3.3.6",
+		"webpack-dev-server": "^3.7.2"
+	}
 }

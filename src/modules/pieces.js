@@ -1,3 +1,5 @@
+import { clone } from "lodash";
+
 const pieces = [
 	{
 		block: [[0, 1, 0], [1, 1, 1], [0, 0, 0]]
@@ -21,6 +23,5 @@ const pieces = [
 		block: [[0, 0, 0, 0], [7, 7, 7, 7], [0, 0, 0, 0], [0, 0, 0, 0]]
 	}
 ];
-export default index => {
-	return pieces[index];
-};
+
+export default index => clone(pieces[index]); //lodash function

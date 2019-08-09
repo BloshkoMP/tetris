@@ -1,40 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<title>Tetris</title>
-	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap&subset=cyrillic" rel="stylesheet" />
-	<link rel="stylesheet" href="../src/style.css" />
-</head>
-
-<body>
-
-	<div class='main'>
-		<H1>
-			<span>
-				<font color="blue">T</font>
-			</span><span>
-				<font color="yellow">E</font>
-			</span><span>
-				<font color="green">T</font>
-			</span><span>
-				<font color="red">R</font>
-			</span><span>
-				<font color="maroon">I</font>
-			</span><span>
-				<font color="purple">S</font>
-			</span>
-		</H1>
-		<div class="buttons">
-			<button class="start">Start</button>
-			<button class="pause">Pause</button>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Tetris</title>
+		<link
+			href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap&subset=cyrillic"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div class="main">
+			<div class="container">
+				<span class="tetris-title">
+					<font color="blue">T</font> <font color="yellow">E</font> <font color="green">T</font>
+					<font color="red">R</font> <font color="maroon">I</font> <font color="purple">S</font>
+				</span>
+				<span class="sound-icon">
+					Sound: ON
+					<audio
+						class="audio"
+						src="https://ia800504.us.archive.org/33/items/TetrisThemeMusic/Tetris.mp3"
+					></audio>
+				</span>
+			</div>
+			<br />
 		</div>
-	</div>
-
-	<script type="module" src="../src/modules/main.js"></script>
-</body>
-
+	</body>
 </html>
