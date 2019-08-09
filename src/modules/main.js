@@ -2,18 +2,17 @@
 import { View } from "./view";
 
 let ticker = 0,
-	isPlaying = true;
+	isPlaying = false;
 
 const htmlElements = {
 	element: document.querySelector(".main"),
-	soundIcon: document.querySelector(".sound-icon"),
-	soundTrack: document.querySelector(".audio")
+	soundIcon: document.querySelector(".sound-icon")
 };
 
 const tetris = new Tetris();
 const view = new View(htmlElements.element, 520, 680, 10, 20);
 
-// const soundTrack = new Audio("https://ia800504.us.archive.org/33/items/TetrisThemeMusic/Tetris.mp3");
+const soundTrack = new Audio("https://ia800504.us.archive.org/33/items/TetrisThemeMusic/Tetris.mp3");
 
 startGame();
 
@@ -41,16 +40,6 @@ function startGame() {
 }
 
 function sound() {
-	const { soundTrack } = htmlElements;
-	soundTrack.volume = 0.5;
-	soundTrack.loop = true;
-	const promise = soundTrack.play();
-	if (promise !== undefined) {
-		promise.catch(() => {
-			soundTrack.play();
-		});
-	}
-
 	htmlElements.soundIcon.addEventListener("click", function() {
 		if (isPlaying) {
 			this.innerText = "Sound:OFF";
