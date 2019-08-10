@@ -15,11 +15,13 @@ canvas {
 	margin-top: 20px;
 }
 
-h1 {
-	margin-bottom: 30px;
-}
-.icon {
+.sound-icon {
 	color: white;
-	font-size: 20px;
-	float: left;
+	font-size: 10px;
+	float: right;
+	margin-right: 30px;
+	cursor: pointer;
+}
+.tetris-title {
+	margin-left: 100px;
 }

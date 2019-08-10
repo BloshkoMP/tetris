@@ -1,3 +1,5 @@
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
+
 export class View {
 	constructor(element, width, height, coloms, rows) {
 		this.element = element;
@@ -59,15 +61,42 @@ export class View {
 		this.context.textBaseline = "middle";
 		this.context.fillText("GAME OVER", this.width / 2, this.height / 2 - 60);
 		this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2);
+		this.context.fillStyle = "silver";
+		this.context.font = '14px "Press Start 2P"';
+		this.context.fillText("Press ENTER to Start New Game", this.width / 2, this.height / 2 + 60);
 	}
 
-	renderStartScreen() {
+	renderStartScreen(scoreHestory) {
+		this.clearRect();
 		this.context.fillStyle = "white";
 		this.context.font = '20px "Press Start 2P"';
 		this.context.textAlign = "center";
 		this.context.textBaseline = "middle";
+		let height = 70;
+		this.context.fillText("NAME SCORE LINES LVL", this.width / 2, height - 60);
+		scoreHestory.sort((current, next) => (current.score < next.score ? 1 : -1));
+		for (let i = 0; i < 5; i++) {
+			const element = scoreHestory[i];
+			if (element.name.length < 4) {
+				element.name = `${element.name} `;
+			}
+			if (element.score < 1000) {
+				element.score = `0${element.score}`;
+			}
+			this.context.fillText(
+				`${element.name}  ${element.score}   ${element.line}   ${element.lvl}`,
+				this.width / 2 - 10,
+				height
+			);
+			height += 34;
+			// this.context.fillText(element.score, this.width / 2, height);
+			// height += 24;
+		}
+		this.context.fillStyle = "white";
+		this.context.textAlign = "center";
+		this.context.textBaseline = "middle";
 		this.context.fillText("Press ENTER to Start", this.width / 2, this.height / 2);
-		this.context.fillStyle = "gray";
+		this.context.fillStyle = "silver";
 		this.context.font = '14px "Press Start 2P"';
 		this.context.fillText("Press ESC to Pause", this.width / 2, this.height / 2 + 60);
 	}

@@ -27,11 +27,6 @@ export class Tetris {
 			}
 		}
 
-		//Refactoring//
-		//forEach
-		// this.playfield.forEach((element,index,playfield)=>{
-		// })
-
 		for (let i = 0; i < this.currentPiece.block.length; i++) {
 			for (let j = 0; j < this.currentPiece.block[i].length; j++) {
 				if (this.currentPiece.block[i][j]) {
@@ -183,5 +178,13 @@ export class Tetris {
 		if (this.isBlockOutOfBounds()) {
 			this.currentPiece.block = block;
 		}
+	}
+	resetGame() {
+		this.playfield = this.createPlayfield();
+		this.currentPiece = this.createNewBlock();
+		this.nextPiece = this.createNewBlock();
+		this.score = 0;
+		this.lines = 0;
+		this.isOverisOver = false;
 	}
 }
