@@ -4,3 +4,6 @@
   
               - npm install
               - npm run dev
+              
+Зпускается файлом:
+              ./hosting/public/index.html
