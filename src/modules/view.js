@@ -1,5 +1,3 @@
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
-
 export class View {
 	constructor(element, width, height, coloms, rows) {
 		this.element = element;
@@ -89,8 +87,6 @@ export class View {
 				height
 			);
 			height += 34;
-			// this.context.fillText(element.score, this.width / 2, height);
-			// height += 24;
 		}
 		this.context.fillStyle = "white";
 		this.context.textAlign = "center";
